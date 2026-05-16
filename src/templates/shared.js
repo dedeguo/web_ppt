@@ -18,6 +18,7 @@ export function wrapHtml(json, slidesHtml, extraCss = '', extraBodyClass = '') {
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;overflow:hidden}
 .slide{position:absolute;top:0;left:0;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;opacity:1;transition:opacity .4s,transform .4s}
+.slide.hidden{display:none}
 .slide-content{max-width:900px;width:80%}
 .page-indicator{position:fixed;bottom:24px;right:32px;color:#94a3b8;font-size:14px;z-index:100}
 ${extraCss}

@@ -20,8 +20,13 @@ const buttonText = computed(() => {
 
 async function handleGenerate() {
   if (!canGenerate.value) return
+  console.log('[InputArea] 点击生成, inputText 长度:', store.inputText.length)
   const json = await generate(store.inputText, false)
-  if (json) render()
+  console.log('[InputArea] generate 返回:', json ? `title=${json.title}, slides=${json.slides?.length}` : 'null')
+  if (json) {
+    console.log('[InputArea] 开始渲染')
+    render()
+  }
 }
 </script>
 
