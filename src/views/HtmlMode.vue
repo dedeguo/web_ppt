@@ -1,17 +1,38 @@
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
 import SidePanel from '../components/SidePanel.vue'
 import HtmlPreview from '../components/HtmlPreview.vue'
 import HtmlControls from '../components/HtmlControls.vue'
+
+const isFullscreen = ref(false)
+
+function toggleFullscreen() {
+  isFullscreen.value = !isFullscreen.value
+}
+
+function handleKeydown(e) {
+  if (e.key === 'Escape' && isFullscreen.value) {
+    isFullscreen.value = false
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown)
+})
 </script>
 
 <template>
-  <div class="html-mode-container">
+  <div class="html-mode-container" :class="{ fullscreen: isFullscreen }">
     <aside class="side-panel">
       <SidePanel />
     </aside>
     <main class="preview-panel">
       <HtmlPreview />
-      <HtmlControls />
+      <HtmlControls @fullscreen="toggleFullscreen" />
     </main>
   </div>
 </template>
@@ -20,6 +41,14 @@ import HtmlControls from '../components/HtmlControls.vue'
 .html-mode-container {
   display: flex;
   height: 100vh;
+}
+
+.html-mode-container.fullscreen .side-panel {
+  display: none;
+}
+
+.html-mode-container.fullscreen .preview-panel {
+  width: 100%;
 }
 
 .side-panel {

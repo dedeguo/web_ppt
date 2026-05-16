@@ -12,7 +12,8 @@ const hasPpt = computed(() => !!store.pptHtml)
 <template>
   <div v-if="hasPpt" class="slide-controls">
     <span class="control-hint">← → 键翻页 | 点击屏幕翻页</span>
-    <button @click="download" title="下载 PPT">⬇</button>
+    <button @click="$emit('fullscreen')" title="全屏预览"></button>
+    <button @click="download" title="下载 PPT"></button>
   </div>
 </template>
 

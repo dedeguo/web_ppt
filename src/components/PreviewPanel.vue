@@ -7,7 +7,7 @@ import FeedbackBar from './FeedbackBar.vue'
 <template>
   <div class="preview-panel-inner">
     <PptIframe />
-    <SlideControls />
+    <SlideControls @fullscreen="$emit('fullscreen')" />
     <FeedbackBar />
   </div>
 </template>

@@ -1,15 +1,36 @@
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
 import SidePanel from '../components/SidePanel.vue'
 import PreviewPanel from '../components/PreviewPanel.vue'
+
+const isFullscreen = ref(false)
+
+function toggleFullscreen() {
+  isFullscreen.value = !isFullscreen.value
+}
+
+function handleKeydown(e) {
+  if (e.key === 'Escape' && isFullscreen.value) {
+    isFullscreen.value = false
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown)
+})
 </script>
 
 <template>
-  <div class="json-mode-container">
+  <div class="json-mode-container" :class="{ fullscreen: isFullscreen }">
     <aside class="side-panel">
       <SidePanel />
     </aside>
     <main class="preview-panel">
-      <PreviewPanel />
+      <PreviewPanel @fullscreen="toggleFullscreen" />
     </main>
   </div>
 </template>
@@ -18,6 +39,14 @@ import PreviewPanel from '../components/PreviewPanel.vue'
 .json-mode-container {
   display: flex;
   height: 100vh;
+}
+
+.json-mode-container.fullscreen .side-panel {
+  display: none;
+}
+
+.json-mode-container.fullscreen .preview-panel {
+  width: 100%;
 }
 
 .side-panel {
