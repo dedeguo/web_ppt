@@ -6,7 +6,7 @@ import FileUploader from './FileUploader.vue'
 import StylePicker from './StylePicker.vue'
 
 const route = useRoute()
-const isHtmlMode = computed(() => route.path === '/html')
+const isHtmlMode = computed(() => route.path === '/')
 </script>
 
 <template>

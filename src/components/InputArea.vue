@@ -12,7 +12,7 @@ const { generate: generateJson } = useApi()
 const { generate: generateHtml } = useHtmlApi()
 const { render } = usePptRenderer()
 
-const isHtmlMode = computed(() => route.path === '/html')
+const isHtmlMode = computed(() => route.path === '/')
 
 const canGenerate = computed(() => {
   return store.inputText.trim().length >= 10 && !store.isGenerating
