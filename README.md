@@ -100,6 +100,39 @@ npm run build
 npm run preview
 ```
 
+## 部署到 GitHub Pages
+
+项目已内置 GitHub Actions 自动部署工作流，每次 push `main` 分支会自动构建并发布到 GitHub Pages。
+
+### 1. 配置 Secrets
+
+在 GitHub 仓库 **Settings → Secrets and variables → Actions → New repository secret** 中添加以下 4 个 Secret：
+
+| Secret 名称 | 说明 | 示例值 |
+|---|---|---|
+| `VITE_API_KEY` | 你的 API Key | `sk-xxxx` |
+| `VITE_API_BASE_URL` | API 基础地址 | `https://api.openai.com/v1` |
+| `VITE_API_MODEL` | 模型名称 | `gpt-4o` |
+| `VITE_API_MAX_TOKENS` | 最大输出 token 数 | `65536` |
+
+### 2. 启用 GitHub Pages
+
+1. 打开仓库 **Settings → Pages**
+2. **Source** 选择 **Deploy from a branch**
+3. **Branch** 选择 `gh-pages`，目录 `/ (root)`，点击 **Save**
+
+> 首次 push 后 `gh-pages` 分支会自动创建，如果看不到请等待 Actions 工作流完成。
+
+### 3. 访问在线页面
+
+部署完成后，访问 `https://<你的用户名>.github.io/web_ppt/` 即可使用。
+
+### 注意事项
+
+- `.env` 文件不会被提交到仓库，本地开发需自行创建
+- GitHub Pages 使用 hash 路由（`#/json`），而非 history 模式
+- 每次 `git push origin main` 都会触发自动部署
+
 ## 使用指南
 
 ### HTML 模式（默认首页 `/`）
