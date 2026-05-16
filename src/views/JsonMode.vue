@@ -49,6 +49,11 @@ onUnmounted(() => {
   width: 100%;
 }
 
+.json-mode-container.fullscreen .slide-controls,
+.json-mode-container.fullscreen .feedback-bar {
+  display: none;
+}
+
 .side-panel {
   width: 380px;
   min-width: 380px;

@@ -11,6 +11,11 @@ const routes = [
     name: 'JsonMode',
     component: () => import('../views/JsonMode.vue'),
   },
+  {
+    path: '/guide',
+    name: 'Guide',
+    component: () => import('../views/GuidePage.vue'),
+  },
 ]
 
 const router = createRouter({

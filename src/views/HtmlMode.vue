@@ -51,6 +51,10 @@ onUnmounted(() => {
   width: 100%;
 }
 
+.html-mode-container.fullscreen .html-controls {
+  display: none;
+}
+
 .side-panel {
   width: 380px;
   min-width: 380px;
