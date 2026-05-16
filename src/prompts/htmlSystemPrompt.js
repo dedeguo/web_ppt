@@ -1,4 +1,21 @@
-export function buildHtmlSystemPrompt() {
+const styleDescriptions = {
+  business: '商务简洁风格，使用深蓝色系，大留白，专业严谨的排版',
+  academic: '学术知识风格，规整的布局，引用块设计，严谨的排版',
+  creative: '创意多彩风格，丰富的渐变色，卡片式设计，活泼的视觉元素',
+  tech: '科技未来风格，深色背景，发光效果，赛博朋克元素',
+  minimal: '极简黑白风格，纯黑白配色，大字号，极致简约的设计',
+}
+
+export function buildHtmlSystemPrompt(selectedStyle = '', customStyle = '') {
+  let styleDesc = ''
+  if (customStyle && customStyle.trim()) {
+    styleDesc = customStyle.trim()
+  } else if (selectedStyle && styleDescriptions[selectedStyle]) {
+    styleDesc = styleDescriptions[selectedStyle]
+  }
+
+  const styleSection = styleDesc ? `\n\n风格要求：${styleDesc}` : ''
+
   return `你是一个专业的 PPT 设计师和前端工程师。根据用户提供的内容，生成一份完整的、自包含的 HTML 文件作为 PPT。
 
 要求：
@@ -12,7 +29,7 @@ export function buildHtmlSystemPrompt() {
   - 精心设计的配色方案
   - 合适的字体大小和行高
   - 装饰性元素（渐变、阴影、边框等）
-  - 平滑的切换动画
+  - 平滑的切换动画${styleSection}
 - 不要返回任何 markdown 代码块标记，直接返回 HTML 代码`
 }
 
