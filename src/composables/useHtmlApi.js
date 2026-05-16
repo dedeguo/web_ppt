@@ -18,7 +18,7 @@ export function useHtmlApi() {
 
     try {
       const messages = [
-        { role: 'system', content: buildHtmlSystemPrompt() },
+        { role: 'system', content: buildHtmlSystemPrompt(store.selectedStyle, store.customStyle) },
         ...buildHtmlUserMessage(content, isModify, store.pptHtml),
       ]
 
