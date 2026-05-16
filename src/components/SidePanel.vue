@@ -1,18 +1,23 @@
 <script setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import InputArea from './InputArea.vue'
 import FileUploader from './FileUploader.vue'
 import StylePicker from './StylePicker.vue'
+
+const route = useRoute()
+const isHtmlMode = computed(() => route.path === '/html')
 </script>
 
 <template>
   <div class="side-panel-inner">
     <h2 class="panel-title">Web PPT</h2>
-    <p class="panel-desc">输入内容，AI 自动生成 PPT</p>
+    <p class="panel-desc">{{ isHtmlMode ? 'AI 直接生成精美 HTML PPT' : '输入内容，AI 自动生成 PPT' }}</p>
     <InputArea />
     <div class="divider"></div>
     <FileUploader />
-    <div class="divider"></div>
-    <StylePicker />
+    <div v-if="!isHtmlMode" class="divider"></div>
+    <StylePicker v-if="!isHtmlMode" />
   </div>
 </template>
 

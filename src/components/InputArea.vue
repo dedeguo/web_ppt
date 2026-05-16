@@ -1,12 +1,18 @@
 <script setup>
 import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { usePptStore } from '../composables/usePptStore'
 import { useApi } from '../composables/useApi'
+import { useHtmlApi } from '../composables/useHtmlApi'
 import { usePptRenderer } from '../composables/usePptRenderer'
 
+const route = useRoute()
 const store = usePptStore()
-const { generate } = useApi()
+const { generate: generateJson } = useApi()
+const { generate: generateHtml } = useHtmlApi()
 const { render } = usePptRenderer()
+
+const isHtmlMode = computed(() => route.path === '/html')
 
 const canGenerate = computed(() => {
   return store.inputText.trim().length >= 10 && !store.isGenerating
@@ -14,18 +20,19 @@ const canGenerate = computed(() => {
 
 const buttonText = computed(() => {
   if (store.isGenerating) return '生成中...'
-  if (store.pptJson) return '重新生成'
-  return '生成 PPT'
+  if (isHtmlMode.value) {
+    return store.pptHtml ? '重新生成' : '生成 PPT'
+  }
+  return store.pptJson ? '重新生成' : '生成 PPT'
 })
 
 async function handleGenerate() {
   if (!canGenerate.value) return
-  console.log('[InputArea] 点击生成, inputText 长度:', store.inputText.length)
-  const json = await generate(store.inputText, false)
-  console.log('[InputArea] generate 返回:', json ? `title=${json.title}, slides=${json.slides?.length}` : 'null')
-  if (json) {
-    console.log('[InputArea] 开始渲染')
-    render()
+  if (isHtmlMode.value) {
+    await generateHtml(store.inputText, false)
+  } else {
+    const json = await generateJson(store.inputText, false)
+    if (json) render()
   }
 }
 </script>
