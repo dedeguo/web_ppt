@@ -8,6 +8,7 @@ export function useHtmlApi() {
     key: import.meta.env.VITE_API_KEY,
     baseUrl: import.meta.env.VITE_API_BASE_URL || 'https://api.openai.com/v1',
     model: import.meta.env.VITE_API_MODEL || 'gpt-4o',
+    maxTokens: parseInt(import.meta.env.VITE_API_MAX_TOKENS) || 65536,
   }
 
   async function generate(content, isModify = false) {
@@ -31,7 +32,7 @@ export function useHtmlApi() {
           model: apiConfig.model,
           messages,
           temperature: 0.7,
-          max_tokens: 8192,
+          max_tokens: apiConfig.maxTokens,
           stream: true,
         }),
       })
@@ -60,7 +61,14 @@ export function useHtmlApi() {
         }
       }
 
+      console.log('[useHtmlApi] 收到原始内容长度:', fullContent.length)
+      console.log('[useHtmlApi] 原始内容前 200 字符:', fullContent.slice(0, 200))
+      console.log('[useHtmlApi] 原始内容后 200 字符:', fullContent.slice(-200))
+
       const html = extractHtml(fullContent)
+      console.log('[useHtmlApi] 提取后 HTML 长度:', html ? html.length : 0)
+      console.log('[useHtmlApi] 提取后 HTML 前 200 字符:', html ? html.slice(0, 200) : 'null')
+      console.log('[useHtmlApi] 是否以 <!DOCTYPE 开头:', html ? html.trim().startsWith('<!DOCTYPE') : false)
       store.setPptHtml(html)
       store.addChatMessage('assistant', 'PPT HTML 生成完成')
       return html

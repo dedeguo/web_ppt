@@ -130,6 +130,11 @@ npm run preview
 | .md | FileReader | 最大 10MB |
 | .docx | mammoth.js | 最大 10MB |
 
+## 使用示例
+```text
+介绍java编程语言的基础知识，包括基本语法、数据类型、控制流、函数、对象。
+```
+
 ## License
 
 MIT
