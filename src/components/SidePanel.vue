@@ -17,7 +17,7 @@ const isHtmlMode = computed(() => route.path === '/')
     <div class="divider"></div>
     <FileUploader />
     <div v-if="!isHtmlMode" class="divider"></div>
-    <StylePicker v-if="!isHtmlMode" />
+    <StylePicker />
   </div>
 </template>
 
