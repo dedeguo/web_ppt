@@ -6,22 +6,41 @@ import HtmlControls from '../components/HtmlControls.vue'
 
 const isFullscreen = ref(false)
 
-function toggleFullscreen() {
-  isFullscreen.value = !isFullscreen.value
+function enterFullscreen() {
+  const el = document.documentElement
+  if (el.requestFullscreen) el.requestFullscreen()
+  else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen()
+  else if (el.msRequestFullscreen) el.msRequestFullscreen()
 }
 
-function handleKeydown(e) {
-  if (e.key === 'Escape' && isFullscreen.value) {
-    isFullscreen.value = false
+function exitFullscreen() {
+  if (document.exitFullscreen) document.exitFullscreen()
+  else if (document.webkitExitFullscreen) document.webkitExitFullscreen()
+  else if (document.msExitFullscreen) document.msExitFullscreen()
+}
+
+function toggleFullscreen() {
+  if (isFullscreen.value) {
+    exitFullscreen()
+  } else {
+    enterFullscreen()
   }
 }
 
+function handleFullscreenChange() {
+  isFullscreen.value = !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement)
+}
+
 onMounted(() => {
-  window.addEventListener('keydown', handleKeydown)
+  document.addEventListener('fullscreenchange', handleFullscreenChange)
+  document.addEventListener('webkitfullscreenchange', handleFullscreenChange)
+  document.addEventListener('msfullscreenchange', handleFullscreenChange)
 })
 
 onUnmounted(() => {
-  window.removeEventListener('keydown', handleKeydown)
+  document.removeEventListener('fullscreenchange', handleFullscreenChange)
+  document.removeEventListener('webkitfullscreenchange', handleFullscreenChange)
+  document.removeEventListener('msfullscreenchange', handleFullscreenChange)
 })
 </script>
 
