@@ -7,6 +7,7 @@ export const usePptStore = defineStore('ppt', () => {
   const isGenerating = ref(false)
   const error = ref('')
   const selectedStyle = ref('business')
+  const customStyle = ref('')
   const inputText = ref('')
   const chatHistory = ref([])
 
@@ -28,6 +29,10 @@ export const usePptStore = defineStore('ppt', () => {
 
   function setStyle(style) {
     selectedStyle.value = style
+  }
+
+  function setCustomStyle(text) {
+    customStyle.value = text
   }
 
   function setInputText(text) {
@@ -55,6 +60,7 @@ export const usePptStore = defineStore('ppt', () => {
     isGenerating,
     error,
     selectedStyle,
+    customStyle,
     inputText,
     chatHistory,
     setPptJson,
@@ -62,6 +68,7 @@ export const usePptStore = defineStore('ppt', () => {
     setGenerating,
     setError,
     setStyle,
+    setCustomStyle,
     setInputText,
     addChatMessage,
     reset,
