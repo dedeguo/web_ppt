@@ -73,7 +73,7 @@ export function useHtmlApi() {
   }
 
   function extractHtml(content) {
-    const match = content.match(/```(?:html)?\s*([\s\S]*?)```/)
+    const match = content.match(/```(?:html)?\s*([\s\S]*)```/)
     if (match) return match[1].trim()
     const doctypeMatch = content.match(/<!DOCTYPE[\s\S]*?<\/html>/i)
     if (doctypeMatch) return doctypeMatch[0]
