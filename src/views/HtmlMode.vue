@@ -1,6 +1,7 @@
 <script setup>
 import SidePanel from '../components/SidePanel.vue'
 import HtmlPreview from '../components/HtmlPreview.vue'
+import HtmlControls from '../components/HtmlControls.vue'
 </script>
 
 <template>
@@ -10,6 +11,7 @@ import HtmlPreview from '../components/HtmlPreview.vue'
     </aside>
     <main class="preview-panel">
       <HtmlPreview />
+      <HtmlControls />
     </main>
   </div>
 </template>
