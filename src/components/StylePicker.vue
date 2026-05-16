@@ -4,49 +4,53 @@ import { usePptStore } from '../composables/usePptStore'
 const store = usePptStore()
 
 const styles = [
-  { value: 'business', label: '商务简洁', desc: '深蓝 / 大留白 / 专业' },
-  { value: 'academic', label: '学术知识', desc: '规整 / 引用块 / 严谨' },
-  { value: 'creative', label: '创意多彩', desc: '渐变 / 卡片 / 活泼' },
-  { value: 'tech', label: '科技未来', desc: '深色 / 发光 / 赛博朋克' },
-  { value: 'minimal', label: '极简黑白', desc: '纯黑白 / 大字号 / 简约' },
+  { value: 'business', label: '商务简洁' },
+  { value: 'academic', label: '学术知识' },
+  { value: 'creative', label: '创意多彩' },
+  { value: 'tech', label: '科技未来' },
+  { value: 'minimal', label: '极简黑白' },
 ]
 
-function handleStyleClick(value) {
-  store.setCustomStyle('')
-  store.setStyle(value)
+function handleStyleChange(event) {
+  const value = event.target.value
+  if (value === 'custom') {
+    store.setStyle('')
+  } else {
+    store.setCustomStyle('')
+    store.setStyle(value)
+  }
 }
 
 function handleCustomInput(event) {
-  const value = event.target.value
-  store.setCustomStyle(value)
-  if (value.trim()) {
-    store.setStyle('')
-  }
+  store.setCustomStyle(event.target.value)
 }
 </script>
 
 <template>
   <div class="style-picker">
     <label class="style-label">选择风格</label>
-    <div class="style-options">
-      <button
+    <select
+      class="style-select"
+      :value="store.customStyle ? 'custom' : store.selectedStyle"
+      @change="handleStyleChange"
+    >
+      <option value="" disabled>请选择风格</option>
+      <option
         v-for="s in styles"
         :key="s.value"
-        class="style-option"
-        :class="{ active: store.selectedStyle === s.value }"
-        @click="handleStyleClick(s.value)"
+        :value="s.value"
       >
-        <span class="style-name">{{ s.label }}</span>
-        <span class="style-desc">{{ s.desc }}</span>
-      </button>
-    </div>
-    <div class="custom-style-input">
+        {{ s.label }}
+      </option>
+      <option value="custom">自定义...</option>
+    </select>
+    <div v-if="store.selectedStyle === '' || store.customStyle" class="custom-style-input">
       <input
         type="text"
         class="custom-input"
         :value="store.customStyle"
         @input="handleCustomInput"
-        placeholder="或输入自定义风格描述，如：日式和风、复古报纸风格..."
+        placeholder="输入自定义风格描述，如：日式和风、复古报纸风格..."
       />
     </div>
   </div>
@@ -65,44 +69,26 @@ function handleCustomInput(event) {
   color: #334155;
 }
 
-.style-options {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.style-option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.style-select {
+  width: 100%;
   padding: 10px 12px;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
-  background: #fff;
-  cursor: pointer;
-  text-align: left;
-  transition: border-color 0.2s, background 0.2s;
-}
-
-.style-option:hover {
-  border-color: #93c5fd;
-}
-
-.style-option.active {
-  border-color: #3b82f6;
-  background: #eff6ff;
-}
-
-.style-name {
   font-size: 14px;
-  font-weight: 600;
   color: #1e293b;
-  min-width: 72px;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  box-sizing: border-box;
 }
 
-.style-desc {
-  font-size: 12px;
-  color: #94a3b8;
+.style-select:focus {
+  border-color: #3b82f6;
 }
 
 .custom-style-input {
